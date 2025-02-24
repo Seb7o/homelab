@@ -1,0 +1,53 @@
+version: "2"
+services:
+  bookstack:
+    image: lscr.io/linuxserver/bookstack:${BOOKSTACK_VERSION:latest}
+    container_name: bookstack
+    hostname: dkr-bookstack-main
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - APP_KEY=${API_KEY:?api key required}
+      - APP_URL=${APP_URL:-http://localhost:${APP_PORT:-6875}}
+      - DB_HOST=${DB_HOST:-bookstack_db}
+      - DB_PORT=${DB_PORT:-3306}
+      - DB_USER=${DB_USER:-bookstack}
+      - DB_PASS=${DB_PASS:-bookstack}
+      - DB_DATABASE=${DB_DATABASE:-bookstackapp}
+      #- APP_DEFAULT_DARK_MODE=true
+      #- MAIL_DRIVER=${MAIL_DRIVER:-smtp}
+      #- MAIL_PORT=${MAIL_PORT:-465}
+      #- MAIL_ENCRYPTION=${MAIL_ENCRYPTION:-tls}
+      #- MAIL_HOST=${MAIL_HOST:-smtp.gmail.com}
+      #- MAIL_USERNAME=${MAIL_USERNAME:-yourEMAIL}
+      #- MAIL_PASSWORD=${MAIL_PASSWORD:-yourPassword}
+      #- MAIL_FROM=${MAIL_FROM:-yourEMAIL}
+      #- MAIL_FROM_NAME=${MAIL_FROM_NAME:-yourNAME}
+    volumes:
+      - /srv/docker/bookstack/app_data:/config
+    ports:
+      - ${APP_PORT:-6875}:80
+    restart: unless-stopped
+    depends_on:
+      - bookstack_db
+  bookstack_db:
+    #image: mariadb:10.6.12
+    image: mysql:${MYSQL_VERSION:-8.0.32}
+    container_name: bookstack_db
+    hostname: dkr-bookstack-db
+    # uncomment if you want to expose db
+    # be sure to set MYSQL_ROOT_PASSWORD if you do
+    # ports:
+      # - 3308:3306 # 3308 is a DB port visible on HOST
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-mysql_password1234}
+      - TZ=${TZ:-Europe/Paris}
+      - MYSQL_DATABASE=${DB_DATABASE:-bookstackapp}
+      - MYSQL_USER=${DB_USER:-bookstack}
+      - MYSQL_PASSWORD=${DB_PASS:-bookstack}
+    volumes:
+      - /srv/docker/bookstack/db/config:/config
+      - /srv/docker/bookstack/db-store:/var/lib/mysql
+    restart: unless-stopped

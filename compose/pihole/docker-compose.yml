@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  pihole:
+    container_name: pihole
+    hostname: dkr-pihole-01
+    network_mode: host  # Utilisez le mode réseau hôte pour gérer le DHCP correctement
+    image: pihole/pihole:latest
+    environment:
+      TZ: 'Europe/Paris'
+      WEBPASSWORD: '${WEBPASSWORD}' #set a secure password here or it will be random
+      FTLCONF_LOCAL_IPV4: '192.168.1.29'
+      INTERFACE: 'enp0s18'
+    volumes:
+      - './etc-pihole:/etc/pihole'
+      - './etc-dnsmasq.d:/etc/dnsmasq.d'
+    cap_add:
+      - NET_ADMIN # Requis pour les fonctionnalités de DHCP
+    restart: unless-stopped

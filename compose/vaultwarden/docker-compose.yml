@@ -1,0 +1,12 @@
+services:
+  vaultwarden:
+    image: vaultwarden/server:${VAULTWARDEN_TAG:-latest}
+    container_name: vaultwarden
+    restart: unless-stopped
+    environment:
+      DOMAIN: "${DOMAIN:-localhost}"
+      ADMIN_TOKEN: '${ADMIN_TOKEN:?admin token required}'
+    volumes:
+      - /srv/docker/vaultwarden/vw-data/:/data/
+    ports:
+      - ${PORT:-8000}:80
