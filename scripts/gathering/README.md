@@ -6,7 +6,7 @@ This directory contains scripts for gathering information and configurations fro
 
 ### `get_compose_from_server.sh`
 
-This script copies `docker-compose.yml` files from a remote server to the local machine. It will will search in `/srv/docker/{app_name}/` but you can customize it. Could be useful if you want to backup your compose files and you haven't done it yet. (shame on you)
+This script copies `docker-compose.yml` files from a remote server to the local machine. Could be useful if you want to backup your compose files and you haven't done it yet. (shame on you)
 
 #### Usage
 
@@ -35,4 +35,3 @@ The script will generate a YAML file named `homelab_info_<hostname>.yml` contain
 - Ensure that you have the necessary permissions to execute these scripts.
 - The get_compose_from_server.sh script requires SSH access to the remote server.
 - The get_infos.sh script requires various system utilities such as `lsb_release`, `lscpu`, `free`, `df`, `ip`, `systemctl`, `docker`, `ps`, `ss`, and `journalctl`.
-```
