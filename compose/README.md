@@ -5,6 +5,7 @@ This directory contains Docker Compose configurations for various services in th
 ## Structure
 
 - **[authentik](./authentik)**: Configuration for [Authentik](https://hub.docker.com/r/goauthentik/server), an open-source identity provider.
+- **[bastion](./bastion)**: Configuration for [Bastion](https://github.com/nqngo/docker-bastion), Alpine-based jump host with OpenSSH Server (sshd) and GnuPG (gnupg).
 - **[bookstack](./bookstack)**: Configuration for [BookStack](https://hub.docker.com/r/linuxserver/bookstack), a simple, self-hosted wiki platform.
 - **[grafana](./grafana)**: Configuration for [Grafana](https://hub.docker.com/r/grafana/grafana), an open-source platform for monitoring and observability.
 - **[graylog](./graylog)**: Configuration for [Graylog](https://hub.docker.com/r/graylog/graylog), a centralized log management solution.
