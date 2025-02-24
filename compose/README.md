@@ -12,6 +12,7 @@ This directory contains Docker Compose configurations for various services in th
 - **[homarr](./homarr)**: Configuration for [Homarr](https://hub.docker.com/r/ajnart/homarr), a sleek and customizable dashboard for your homelab.
 - **[it-tools](./it-tools)**: Configuration for [IT Tools](https://github.com/CorentinTh/it-tools), useful tools for developer and people working in IT.
 - **[nginx](./nginx)**: Configuration for [Nginx Proxy Manager](https://hub.docker.com/r/jc21/nginx-proxy-manager), a simple way to manage reverse proxies.
+- **[paperless](./paperless)**: Configuration for [Paperless ngx](https://github.com/paperless-ngx/paperless-ngx), a document management system that transforms your physical documents into a searchable online archive so you can keep, well, less paper.
 - **[pihole](./pihole)**: Configuration for [Pi-hole](https://hub.docker.com/r/pihole/pihole), a network-wide ad blocker.
 - **[rocketchat](./rocketchat)**: Configuration for [Rocket.Chat](https://hub.docker.com/r/rocketchat/rocket.chat), an open-source team communication platform.
 - **[routr](./routr)**: Configuration for [Routr](https://hub.docker.com/r/fonoster/routr), a lightweight SIP proxy.
