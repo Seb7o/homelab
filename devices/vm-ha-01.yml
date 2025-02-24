@@ -1,0 +1,15 @@
+hostname: "homeassistant"
+fqdn: "vm-ha-01.sevenos.fr"
+dns_name: "vm-ha-01"
+os: "Home Assistant OS 8.0"
+architecture: "x86-64"
+virtualization: "kvm"
+uptime: "up 6 days, 4 hours, 9 minutes"
+hardware:
+  manufacturer: "vm"
+  model: ""
+  serial_number: ""
+  cpu:
+    model: "QEMU Virtual CPU version 2.5+"
+    cores: 4
+  ram: "7.7Gi"
