@@ -16,7 +16,8 @@ This directory contains Docker Compose configurations for various services in th
 - **[routr](./routr)**: Configuration for [Routr](https://hub.docker.com/r/fonoster/routr), a lightweight SIP proxy.
 - **[shlink](./shlink)**: Configuration for [Shlink](https://hub.docker.com/r/shlinkio/shlink), a self-hosted URL shortener.
 - **[trillium](./trillium)**: Configuration for [Trilium Notes](https://hub.docker.com/r/zadam/trilium), a hierarchical note-taking application.
-- **[vaultwarden](./vaultwarden)**: Configuration for [Vaultwarden](https://hub.docker.com/r/vaultwarden/server), an unofficial Bitwarden server implementation.
+- **[uptime-kuma](./uptime-kuma)**: Configuration for [Uptime Kuma](https://hub.docker.com/r/zadam/trilium), A fancy self-hosted monitoring tool.
+- **[vaultwarden](./vaultwarden)**: Configuration for [Vaultwarden](https://github.com/louislam/uptime-kuma), an unofficial Bitwarden server implementation.
 - **[zulip](./zulip)**: Configuration for [Zulip](https://hub.docker.com/r/zulip/zulip), an open-source team chat application.
 
 ## Usage
