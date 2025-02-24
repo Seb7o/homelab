@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  it-tools:
+    image: corentinth/it-tools:latest
+    hostname: dkr-ittools-01
+    container_name: it-tools-main
+    ports:
+      - 8032:80
+    restart: unless-stopped

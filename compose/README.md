@@ -10,6 +10,7 @@ This directory contains Docker Compose configurations for various services in th
 - **[grafana](./grafana)**: Configuration for [Grafana](https://hub.docker.com/r/grafana/grafana), an open-source platform for monitoring and observability.
 - **[graylog](./graylog)**: Configuration for [Graylog](https://hub.docker.com/r/graylog/graylog), a centralized log management solution.
 - **[homarr](./homarr)**: Configuration for [Homarr](https://hub.docker.com/r/ajnart/homarr), a sleek and customizable dashboard for your homelab.
+- **[it-tools](./it-tools)**: Configuration for [IT Tools](https://github.com/CorentinTh/it-tools), useful tools for developer and people working in IT.
 - **[nginx](./nginx)**: Configuration for [Nginx Proxy Manager](https://hub.docker.com/r/jc21/nginx-proxy-manager), a simple way to manage reverse proxies.
 - **[pihole](./pihole)**: Configuration for [Pi-hole](https://hub.docker.com/r/pihole/pihole), a network-wide ad blocker.
 - **[rocketchat](./rocketchat)**: Configuration for [Rocket.Chat](https://hub.docker.com/r/rocketchat/rocket.chat), an open-source team communication platform.
