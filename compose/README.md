@@ -17,6 +17,7 @@ This directory contains Docker Compose configurations for various services in th
 - **[rocketchat](./rocketchat)**: Configuration for [Rocket.Chat](https://hub.docker.com/r/rocketchat/rocket.chat), an open-source team communication platform.
 - **[routr](./routr)**: Configuration for [Routr](https://hub.docker.com/r/fonoster/routr), a lightweight SIP proxy.
 - **[shlink](./shlink)**: Configuration for [Shlink](https://hub.docker.com/r/shlinkio/shlink), a self-hosted URL shortener.
+- **[stirling-pdf](./shtirling-pdf)**: Configuration for [Stirling PDF](https://github.com/Stirling-Tools/Stirling-PDF), a robust, locally hosted web-based PDF manipulation tool.
 - **[trillium](./trillium)**: Configuration for [Trilium Notes](https://hub.docker.com/r/zadam/trilium), a hierarchical note-taking application.
 - **[uptime-kuma](./uptime-kuma)**: Configuration for [Uptime Kuma](https://hub.docker.com/r/zadam/trilium), A fancy self-hosted monitoring tool.
 - **[vaultwarden](./vaultwarden)**: Configuration for [Vaultwarden](https://github.com/louislam/uptime-kuma), an unofficial Bitwarden server implementation.
