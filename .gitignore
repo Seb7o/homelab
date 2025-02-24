@@ -1,0 +1,12 @@
+# Ignore all .env files
+*.env
+
+# Ignore node_modules directory
+node_modules/
+
+# Ignore log files
+*.log
+
+# Ignore Docker related files
+docker-compose.override.yml
+docker-compose.override.yaml
