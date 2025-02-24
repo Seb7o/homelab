@@ -2,6 +2,8 @@
 
 Welcome to the Homelab Project! This repository is dedicated to documenting and managing the various components of my homelab environment. It serves as a central hub for configuration files, scripts, Docker Compose files, Ansible playbooks, and other relevant resources.
 
+Current state : Work in Progress.
+
 ## Project Structure
 
 The project is organized into the following directories:
