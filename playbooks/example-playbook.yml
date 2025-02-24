@@ -1,0 +1,29 @@
+- hosts: all
+  become: yes
+  vars:
+    example_variable: "value"
+  
+  roles:
+    - role: example_role
+      vars:
+        role_variable: "role_value"
+
+  tasks:
+    - name: Ensure a package is installed
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - git
+        - curl
+
+    - name: Copy configuration file
+      template:
+        src: example-config.conf.j2
+        dest: /etc/example-config.conf
+
+    - name: Start a service
+      service:
+        name: example_service
+        state: started
+        enabled: yes
