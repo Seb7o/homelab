@@ -4,15 +4,10 @@ services:
     image: postgres:16-alpine
     volumes:
       - /srv/docker/tandoor/postgresql:/var/lib/postgresql/data
-    env_file:
-      # stack.env for usage in portainer
-      - stack.env
 
   web_recipes:
     restart: always
     image: vabene1111/recipes
-    env_file:
-      - stack.env
     volumes:
       - staticfiles:/opt/recipes/staticfiles
       # Do not make this a bind mount, see https://docs.tandoor.dev/install/docker/#volumes-vs-bind-mounts
@@ -26,8 +21,6 @@ services:
     restart: always
     ports:
       - 80:80
-    env_file:
-      - stack.env
     depends_on:
       - web_recipes
     volumes:
