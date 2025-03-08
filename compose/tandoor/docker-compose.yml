@@ -4,9 +4,10 @@ services:
     image: postgres:16-alpine
     volumes:
       - /srv/docker/tandoor/postgresql:/var/lib/postgresql/data
-    env_file:
-      # stack.env for usage in portainer
-      - stack.env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=djangodb
 
   web_recipes:
     restart: always
@@ -26,8 +27,17 @@ services:
     restart: always
     ports:
       - 8034:80
-    env_file:
-      - stack.env
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - DB_ENGINE=django.db.backends.postgresql
+      - POSTGRES_HOST=db_recipes
+      - POSTGRES_DB=djangodb
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - ALLOWED_HOSTS=*
+      - SOCIAL_PROVIDERS=allauth.socialaccount.providers.openid_connect
+      - SOCIALACCOUNT_PROVIDERS=${SOCIALACCOUNT_PROVIDERS}
     depends_on:
       - web_recipes
     volumes:
