@@ -20,7 +20,7 @@ services:
     image: nginx:mainline-alpine
     restart: always
     ports:
-      - 80:80
+      - 8034:80
     depends_on:
       - web_recipes
     volumes:
