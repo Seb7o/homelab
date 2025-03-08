@@ -12,8 +12,6 @@ services:
   web_recipes:
     restart: always
     image: vabene1111/recipes
-    env_file:
-      - stack.env
     volumes:
       - staticfiles:/opt/recipes/staticfiles
       # Do not make this a bind mount, see https://docs.tandoor.dev/install/docker/#volumes-vs-bind-mounts
