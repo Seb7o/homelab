@@ -12,6 +12,17 @@ services:
   web_recipes:
     restart: always
     image: vabene1111/recipes
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - DB_ENGINE=django.db.backends.postgresql
+      - POSTGRES_HOST=db_recipes
+      - POSTGRES_DB=djangodb
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - ALLOWED_HOSTS=*
+      - SOCIAL_PROVIDERS=allauth.socialaccount.providers.openid_connect
+      - SOCIALACCOUNT_PROVIDERS=${SOCIALACCOUNT_PROVIDERS}
     volumes:
       - staticfiles:/opt/recipes/staticfiles
       # Do not make this a bind mount, see https://docs.tandoor.dev/install/docker/#volumes-vs-bind-mounts
@@ -25,17 +36,6 @@ services:
     restart: always
     ports:
       - 8034:80
-    environment:
-      - SECRET_KEY=${SECRET_KEY}
-      - DB_ENGINE=django.db.backends.postgresql
-      - POSTGRES_HOST=db_recipes
-      - POSTGRES_DB=djangodb
-      - POSTGRES_PORT=5432
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - ALLOWED_HOSTS=*
-      - SOCIAL_PROVIDERS=allauth.socialaccount.providers.openid_connect
-      - SOCIALACCOUNT_PROVIDERS=${SOCIALACCOUNT_PROVIDERS}
     depends_on:
       - web_recipes
     volumes:
