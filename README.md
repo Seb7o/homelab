@@ -9,9 +9,7 @@ Current state : Work in Progress.
 The project is organized into the following directories:
 
 - **ansible/**: Contains Ansible playbooks for automating tasks in the homelab.
-  - **playbooks/**: Directory for storing individual playbooks.
-
-- **devices/**: Contains informations about the devices populating the homelab.
+  - **playbooks/**: Directory for storing individual playbooks. WIP
   
 - **compose/**: Contains Docker Compose files for managing containerized applications.
   
