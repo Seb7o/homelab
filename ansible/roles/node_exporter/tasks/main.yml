@@ -1,0 +1,72 @@
+---
+# Main tasks file for node_exporter role
+
+- name: Map system architecture for node_exporter releases
+  set_fact:
+    node_exporter_arch: "{{ node_exporter_arch_map.get(ansible_architecture, ansible_architecture) }}"
+  vars:
+    node_exporter_arch_map:
+      x86_64: amd64
+      amd64: amd64
+      aarch64: arm64
+      arm64: arm64
+      armv7l: armv7
+      armv6l: armv7
+
+- name: Ensure node_exporter group exists
+  ansible.builtin.group:
+    name: "{{ node_exporter_group }}"
+    system: true
+    state: present
+
+- name: Ensure node_exporter user exists
+  ansible.builtin.user:
+    name: "{{ node_exporter_user }}"
+    group: "{{ node_exporter_group }}"
+    system: true
+    shell: "/usr/sbin/nologin"
+    create_home: false
+    state: present
+
+- name: Download node_exporter archive
+  get_url:
+    url: "{{ node_exporter_download_url }}"
+    dest: "{{ node_exporter_archive_path }}"
+    mode: "0644"
+
+- name: Remove previous extracted node_exporter directory
+  file:
+    path: "{{ node_exporter_extract_path }}"
+    state: absent
+
+- name: Extract node_exporter archive
+  unarchive:
+    src: "{{ node_exporter_archive_path }}"
+    dest: "{{ node_exporter_tmp_dir }}"
+    remote_src: true
+
+- name: Install node_exporter binary
+  copy:
+    src: "{{ node_exporter_extract_path }}/node_exporter"
+    dest: "{{ node_exporter_binary_path }}"
+    owner: "root"
+    group: "root"
+    mode: "0755"
+    remote_src: true
+  notify: restart node_exporter
+
+- name: Install node_exporter systemd unit
+  template:
+    src: "node_exporter.service.j2"
+    dest: "{{ node_exporter_systemd_unit_path }}"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  notify: restart node_exporter
+
+- name: Ensure node_exporter service is enabled and started
+  systemd:
+    name: node_exporter
+    enabled: true
+    state: started
+    daemon_reload: yes

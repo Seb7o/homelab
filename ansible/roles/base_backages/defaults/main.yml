@@ -1,0 +1,19 @@
+base_common_packages:
+  - curl
+  - wget
+  - nano
+  - tree
+  - ncdu
+  - dnsutils
+  - htop
+  - rsync
+  - unzip
+  - zip
+  - bash-completion
+  - ca-certificates
+  - jq
+  - lsof
+  - net-tools
+  - tcpdump
+  - traceroute
+  - iputils-ping

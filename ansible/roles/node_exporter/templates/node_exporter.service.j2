@@ -1,0 +1,20 @@
+[Unit]
+Description=Prometheus Node Exporter
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User={{ node_exporter_user }}
+Group={{ node_exporter_group }}
+Type=simple
+ExecStart={{ node_exporter_binary_path }} \
+  --web.listen-address={{ node_exporter_listen_address }} \
+  --collector.filesystem.mount-points-exclude={{ node_exporter_mount_points_exclude }} \
+  --collector.filesystem.fs-types-exclude={{ node_exporter_filesystem_types_exclude }}{% for arg in node_exporter_extra_args %} \
+  {{ arg }}{% endfor %}
+
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

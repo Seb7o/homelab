@@ -1,0 +1,11 @@
+{% for host in (groups['gateway'] + groups['dns']) | unique | sort %}
+{% if hostvars[host].metrics is defined and hostvars[host].metrics.enabled | default(false) %}
+- targets:
+    - {{ hostvars[host].ansible_host }}:9100
+  labels:
+    host: {{ host }}
+    env: {{ hostvars[host].env | default('unknown') }}
+    category: {{ hostvars[host].category | default('unknown') }}
+    platform: {{ hostvars[host].platform | default('unknown') }}
+{% endif %}
+{% endfor %}

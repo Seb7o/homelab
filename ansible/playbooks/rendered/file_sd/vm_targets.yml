@@ -1,0 +1,35 @@
+- targets:
+    - vm-db-01.prod.sevenos.fr:9100
+  labels:
+    host: vm-db-01
+    env: prod
+    category: database
+    platform: vm
+- targets:
+    - vm-docker-01.sevenos.fr:9100
+  labels:
+    host: vm-docker-01
+    env: home
+    category: docker
+    platform: vm
+- targets:
+    - vm-mon-01.sevenos.fr:9100
+  labels:
+    host: vm-mon-01
+    env: home
+    category: monitoring
+    platform: vm
+- targets:
+    - vm-web-01.sevenos.fr:9100
+  labels:
+    host: vm-web-01
+    env: home
+    category: reverse-proxy
+    platform: vm
+- targets:
+    - vm-web-02.sevenos.fr:9100
+  labels:
+    host: vm-web-02
+    env: home
+    category: reverse-proxy
+    platform: vm

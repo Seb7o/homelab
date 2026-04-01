@@ -1,0 +1,5 @@
+- name: Install SSH keys on all managed hosts
+  hosts: all
+  gather_facts: false
+  roles:
+    - ssh_keys

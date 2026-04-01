@@ -1,0 +1,4 @@
+ssh_keys_url: "https://github.com/Seb7o.keys"
+ssh_keys_user: "{{ ansible_user }}"
+ssh_keys_path: ""
+ssh_keys_revoked: []

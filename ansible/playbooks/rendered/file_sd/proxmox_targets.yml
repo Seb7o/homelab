@@ -1,0 +1,56 @@
+- targets:
+    - hpv-proxmox-01.sevenos.fr:9100
+  labels:
+    host: hpv-proxmox-01
+    env: home
+    category: hypervisor
+    platform: hypervisor
+- targets:
+    - pprd-hpv-pmx-01.sevenos.fr:9100
+  labels:
+    host: pprd-hpv-pmx-01
+    env: preprod
+    category: hypervisor
+    platform: hypervisor
+- targets:
+    - pprd-hpv-pmx-02.sevenos.fr:9100
+  labels:
+    host: pprd-hpv-pmx-02
+    env: preprod
+    category: hypervisor
+    platform: hypervisor
+- targets:
+    - pprd-hpv-pmx-03.sevenos.fr:9100
+  labels:
+    host: pprd-hpv-pmx-03
+    env: preprod
+    category: hypervisor
+    platform: hypervisor
+- targets:
+    - prod-hpv-pmx-01.sevenos.fr:9100
+  labels:
+    host: prod-hpv-pmx-01
+    env: prod
+    category: hypervisor
+    platform: hypervisor
+- targets:
+    - prod-hpv-pmx-02.sevenos.fr:9100
+  labels:
+    host: prod-hpv-pmx-02
+    env: prod
+    category: hypervisor
+    platform: hypervisor
+- targets:
+    - prod-hpv-pmx-03.sevenos.fr:9100
+  labels:
+    host: prod-hpv-pmx-03
+    env: prod
+    category: hypervisor
+    platform: hypervisor
+- targets:
+    - pve-remote-01.sevenos.fr:9100
+  labels:
+    host: pve-remote-01
+    env: remote
+    category: hypervisor
+    platform: hypervisor

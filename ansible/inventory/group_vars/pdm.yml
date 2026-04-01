@@ -1,0 +1,4 @@
+# ssh_keys_path: /etc/pve/priv/authorized_keys
+metrics:
+  enabled: true
+  install: true

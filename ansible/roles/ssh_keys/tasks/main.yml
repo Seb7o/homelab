@@ -1,0 +1,31 @@
+- name: Fetch public keys from GitHub
+  ansible.builtin.uri:
+    url: "{{ ssh_keys_url }}"
+    return_content: true
+  register: github_keys
+  delegate_to: localhost
+  run_once: true
+  check_mode: false
+
+- name: Build key list
+  ansible.builtin.set_fact:
+    ssh_public_keys: "{{ github_keys.content.splitlines() | reject('equalto', '') | list }}"
+
+- name: Install SSH keys
+  ansible.posix.authorized_key:
+    user: "{{ ssh_keys_user }}"
+    key: "{{ item }}"
+    state: present
+    path: "{{ ssh_keys_path if ssh_keys_path | length > 0 else omit }}"
+    manage_dir: false
+  loop: "{{ ssh_public_keys }}"
+
+- name: Remove revoked SSH keys
+  ansible.posix.authorized_key:
+    user: "{{ ssh_keys_user }}"
+    key: "{{ item }}"
+    state: absent
+    path: "{{ ssh_keys_path if ssh_keys_path | length > 0 else omit }}"
+    manage_dir: false
+  loop: "{{ ssh_keys_revoked }}"
+  when: ssh_keys_revoked | length > 0

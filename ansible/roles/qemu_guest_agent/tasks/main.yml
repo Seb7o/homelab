@@ -1,0 +1,17 @@
+- name: "Définir le paquet QEMU guest agent"
+  ansible.builtin.set_fact:
+    qga_package_name: "{{ qga_package_map.get(ansible_distribution, 'qemu-guest-agent') }}"
+    qga_service_name: "{{ qga_service_map.get(ansible_distribution, 'qemu-guest-agent') }}"
+
+- name: "Installer QEMU guest agent"
+  ansible.builtin.package:
+    name: "{{ qga_package_name }}"
+    state: present
+  become: true
+
+- name: "Activer et démarrer QEMU guest agent"
+  ansible.builtin.service:
+    name: "{{ qga_service_name }}"
+    enabled: true
+    state: started
+  become: true

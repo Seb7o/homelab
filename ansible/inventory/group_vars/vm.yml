@@ -1,0 +1,4 @@
+platform: vm
+metrics:
+  enabled: true
+  install: true

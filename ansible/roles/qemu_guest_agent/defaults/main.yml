@@ -1,0 +1,7 @@
+qga_package_map:
+  Debian: qemu-guest-agent
+  Ubuntu: qemu-guest-agent
+
+qga_service_map:
+  Debian: qemu-guest-agent
+  Ubuntu: qemu-guest-agent

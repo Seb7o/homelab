@@ -1,0 +1,14 @@
+- targets:
+    - pbs-local-01.sevenos.fr:9100
+  labels:
+    host: pbs-local-01
+    env: home
+    category: backup
+    platform: vm
+- targets:
+    - pbs-remote-01.sevenos.fr:9100
+  labels:
+    host: pbs-remote-01
+    env: remote
+    category: backup
+    platform: vm

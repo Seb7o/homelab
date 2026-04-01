@@ -1,0 +1,62 @@
+- name: Render Prometheus file_sd locally
+  hosts: localhost
+  gather_facts: false
+  vars:
+    file_sd_local_dir: "./rendered/file_sd"
+  tasks:
+    - name: Ensure local rendered directory exists
+      ansible.builtin.file:
+        path: "{{ file_sd_local_dir }}"
+        state: directory
+        mode: "0755"
+
+    - name: Render proxmox targets locally
+      ansible.builtin.template:
+        src: ../templates/prometheus/file_sd/proxmox_targets.yml.j2
+        dest: "{{ file_sd_local_dir }}/proxmox_targets.yml"
+        mode: "0644"
+
+    - name: Render vm targets locally
+      ansible.builtin.template:
+        src: ../templates/prometheus/file_sd/vm_targets.yml.j2
+        dest: "{{ file_sd_local_dir }}/vm_targets.yml"
+        mode: "0644"
+
+    - name: Render storage targets locally
+      ansible.builtin.template:
+        src: ../templates/prometheus/file_sd/storage_targets.yml.j2
+        dest: "{{ file_sd_local_dir }}/storage_targets.yml"
+        mode: "0644"
+
+    - name: Render network targets locally
+      ansible.builtin.template:
+        src: ../templates/prometheus/file_sd/network_targets.yml.j2
+        dest: "{{ file_sd_local_dir }}/network_targets.yml"
+        mode: "0644"
+
+- name: Publish Prometheus file_sd to monitoring host
+  hosts: vm-mon-01
+  gather_facts: false
+  vars:
+    file_sd_local_dir: "./rendered/file_sd"
+    file_sd_remote_dir: "/srv/docker/monitoring/prometheus/file_sd"
+    publish_file_sd: false
+  tasks:
+    - name: Ensure remote file_sd directory exists
+      ansible.builtin.file:
+        path: "{{ file_sd_remote_dir }}"
+        state: directory
+        mode: "0755"
+      when: publish_file_sd | bool
+
+    - name: Copy rendered file_sd files to monitoring host
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: "{{ file_sd_remote_dir }}/"
+        mode: "0644"
+      loop:
+        - "{{ file_sd_local_dir }}/proxmox_targets.yml"
+        - "{{ file_sd_local_dir }}/vm_targets.yml"
+        - "{{ file_sd_local_dir }}/storage_targets.yml"
+        - "{{ file_sd_local_dir }}/network_targets.yml"
+      when: publish_file_sd | bool

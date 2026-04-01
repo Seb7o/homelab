@@ -1,0 +1,21 @@
+- targets:
+    - gw-main-01.sevenos.fr:9100
+  labels:
+    host: gw-main-01
+    env: home
+    category: network
+    platform: vm
+- targets:
+    - gw-remote-01.sevenos.fr:9100
+  labels:
+    host: gw-remote-01
+    env: remote
+    category: network
+    platform: vm
+- targets:
+    - pihole-deb-01.sevenos.fr:9100
+  labels:
+    host: pihole-deb-01
+    env: home
+    category: dns
+    platform: baremetal

@@ -1,0 +1,7 @@
+category: hypervisor
+platform: hypervisor
+metrics:
+  enabled: true
+  install: true
+
+ssh_keys_path: /etc/pve/priv/authorized_keys
