@@ -91,52 +91,40 @@ def validate_identifier(name: str, label: str) -> None:
         )
 
 
-def sql_quote_literal(value: str) -> str:
-    return "'" + value.replace("'", "''") + "'"
-
-
-def build_sql(db_name: str, db_user: str, db_password: str) -> str:
-    db_name_lit = sql_quote_literal(db_name)
-    db_user_lit = sql_quote_literal(db_user)
-    db_password_lit = sql_quote_literal(db_password)
-
-    db_name_ident = f'"{db_name}"'
-    db_user_ident = f'"{db_user}"'
+def build_role_sql(db_user: str, db_password: str) -> str:
+    db_user_sql = db_user.replace("'", "''")
+    db_password_sql = db_password.replace("'", "''")
 
     return f"""
 DO $$
 BEGIN
     IF NOT EXISTS (
-        SELECT 1 FROM pg_catalog.pg_roles WHERE rolname = {db_user_lit}
+        SELECT 1 FROM pg_catalog.pg_roles WHERE rolname = '{db_user_sql}'
     ) THEN
-        EXECUTE 'CREATE ROLE {db_user_ident} LOGIN PASSWORD ' || {db_password_lit};
+        EXECUTE format('CREATE ROLE %I LOGIN PASSWORD %L', '{db_user_sql}', '{db_password_sql}');
     ELSE
-        EXECUTE 'ALTER ROLE {db_user_ident} WITH LOGIN PASSWORD ' || {db_password_lit};
+        EXECUTE format('ALTER ROLE %I LOGIN PASSWORD %L', '{db_user_sql}', '{db_password_sql}');
     END IF;
 END
 $$;
-
-DO $$
-BEGIN
-    IF NOT EXISTS (
-        SELECT 1 FROM pg_database WHERE datname = {db_name_lit}
-    ) THEN
-        EXECUTE 'CREATE DATABASE {db_name_ident} OWNER {db_user_ident}';
-    END IF;
-END
-$$;
-
-GRANT ALL PRIVILEGES ON DATABASE {db_name_ident} TO {db_user_ident};
 """.strip()
 
 
-def run_menu(stdscr, title: str, options: list[str]) -> str:
+def init_curses(stdscr) -> None:
     curses.curs_set(0)
+    try:
+        curses.use_default_colors()
+    except curses.error:
+        pass
+
+
+def run_menu(stdscr, title: str, options: list[str]) -> str:
+    init_curses(stdscr)
     idx = 0
     scroll = 0
 
     while True:
-        stdscr.clear()
+        stdscr.erase()
         height, width = stdscr.getmaxyx()
 
         stdscr.addstr(0, 0, title[: width - 1], curses.A_BOLD)
@@ -160,6 +148,7 @@ def run_menu(stdscr, title: str, options: list[str]) -> str:
             else:
                 stdscr.addstr(line_no, 0, text[: width - 1])
 
+        stdscr.refresh()
         key = stdscr.getch()
 
         if key in (curses.KEY_UP, ord("k")):
@@ -171,12 +160,12 @@ def run_menu(stdscr, title: str, options: list[str]) -> str:
 
 
 def run_confirm(stdscr, lines: list[str]) -> bool:
+    init_curses(stdscr)
     choices = ["Yes", "No"]
     idx = 0
-    curses.curs_set(0)
 
     while True:
-        stdscr.clear()
+        stdscr.erase()
         height, width = stdscr.getmaxyx()
 
         stdscr.addstr(0, 0, "Confirm", curses.A_BOLD)
@@ -202,6 +191,7 @@ def run_confirm(stdscr, lines: list[str]) -> bool:
                     stdscr.addstr(y, x, text)
             x += len(text) + 2
 
+        stdscr.refresh()
         key = stdscr.getch()
 
         if key in (curses.KEY_LEFT, ord("h")):
@@ -251,12 +241,13 @@ def interactive_confirm(
     return curses.wrapper(lambda stdscr: run_confirm(stdscr, lines))
 
 
-def run_remote_psql(
+def run_remote_psql_command(
     sql: str,
     ssh_host: str,
     ssh_user: str,
     ssh_port: int,
-) -> None:
+    capture_output: bool = False,
+) -> subprocess.CompletedProcess[str]:
     remote_target = f"{ssh_user}@{ssh_host}"
 
     psql_cmd = [
@@ -276,9 +267,82 @@ def run_remote_psql(
         remote_script,
     ]
 
-    result = subprocess.run(ssh_cmd, text=True)
+    result = subprocess.run(
+        ssh_cmd,
+        text=True,
+        capture_output=capture_output,
+    )
+
     if result.returncode != 0:
+        if capture_output:
+            stderr = (result.stderr or "").strip()
+            stdout = (result.stdout or "").strip()
+            details = stderr or stdout or "unknown error"
+            fail(f"Remote SSH/psql command failed: {details}")
         fail("Remote SSH/psql command failed")
+
+    return result
+
+
+def remote_database_exists(
+    db_name: str,
+    ssh_host: str,
+    ssh_user: str,
+    ssh_port: int,
+) -> bool:
+    db_name_sql = db_name.replace("'", "''")
+
+    result = run_remote_psql_command(
+        sql=f"SELECT 1 FROM pg_database WHERE datname = '{db_name_sql}';",
+        ssh_host=ssh_host,
+        ssh_user=ssh_user,
+        ssh_port=ssh_port,
+        capture_output=True,
+    )
+
+    return "1" in (result.stdout or "").split()
+
+
+def create_database_if_needed(
+    db_name: str,
+    db_user: str,
+    ssh_host: str,
+    ssh_user: str,
+    ssh_port: int,
+) -> None:
+    if remote_database_exists(
+        db_name=db_name,
+        ssh_host=ssh_host,
+        ssh_user=ssh_user,
+        ssh_port=ssh_port,
+    ):
+        info(f"Database already exists: {db_name}")
+        return
+
+    sql = f'CREATE DATABASE "{db_name}" OWNER "{db_user}";'
+    run_remote_psql_command(
+        sql=sql,
+        ssh_host=ssh_host,
+        ssh_user=ssh_user,
+        ssh_port=ssh_port,
+    )
+    info(f"Database created: {db_name}")
+
+
+def grant_database_privileges(
+    db_name: str,
+    db_user: str,
+    ssh_host: str,
+    ssh_user: str,
+    ssh_port: int,
+) -> None:
+    sql = f'GRANT ALL PRIVILEGES ON DATABASE "{db_name}" TO "{db_user}";'
+    run_remote_psql_command(
+        sql=sql,
+        ssh_host=ssh_host,
+        ssh_user=ssh_user,
+        ssh_port=ssh_port,
+    )
 
 
 def main() -> None:
@@ -332,14 +396,29 @@ def main() -> None:
         print("Aborted.")
         sys.exit(0)
 
-    sql = build_sql(db_name=db_name, db_user=db_user, db_password=db_password)
-
     info(f"SSH target: {ssh_user}@{ssh_host}:{ssh_port}")
     info(f"Database: {db_name}")
     info(f"User: {db_user}")
 
-    run_remote_psql(
-        sql=sql,
+    role_sql = build_role_sql(db_user=db_user, db_password=db_password)
+    run_remote_psql_command(
+        sql=role_sql,
+        ssh_host=ssh_host,
+        ssh_user=ssh_user,
+        ssh_port=ssh_port,
+    )
+
+    create_database_if_needed(
+        db_name=db_name,
+        db_user=db_user,
+        ssh_host=ssh_host,
+        ssh_user=ssh_user,
+        ssh_port=ssh_port,
+    )
+
+    grant_database_privileges(
+        db_name=db_name,
+        db_user=db_user,
         ssh_host=ssh_host,
         ssh_user=ssh_user,
         ssh_port=ssh_port,
