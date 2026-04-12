@@ -6,7 +6,4 @@ services:
       - 3456:3456
     volumes:
       - ./files:/app/vikunja/files
-    depends_on:
-      db:
-        condition: service_healthy
     restart: unless-stopped
