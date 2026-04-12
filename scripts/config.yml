@@ -1,0 +1,4 @@
+ssh:
+  host: db.prod.sevenos.fr
+  user: admin
+  port: 22
