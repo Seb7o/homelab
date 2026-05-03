@@ -1,0 +1,16 @@
+all:
+  children:
+    gateway:
+      vars:
+        platform: vm
+        metrics:
+          enabled: true
+      hosts:
+        gw-main-01:
+          ansible_host: gw-main-01.sevenos.fr
+          env: home
+          category: network
+        gw-remote-01:
+          ansible_host: gw-remote-01.sevenos.fr
+          env: remote
+          category: network

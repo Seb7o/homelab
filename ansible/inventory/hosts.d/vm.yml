@@ -1,0 +1,34 @@
+all:
+  children:
+    vm:
+      hosts:
+        vm-mon-01:
+          ansible_host: vm-mon-01.sevenos.fr
+          ansible_user: admin
+          env: home
+          category: monitoring
+        vm-docker-01:
+          ansible_host: vm-docker-01.sevenos.fr
+          env: home
+          category: docker 
+        vm-web-01:
+          ansible_host: vm-web-01.sevenos.fr
+          env: home
+          category: reverse-proxy 
+        vm-web-02:
+          ansible_host: vm-web-02.sevenos.fr
+          ansible_user: admin
+          env: home
+          category: reverse-proxy
+        vm-ha-01:
+          ansible_host: vm-ha-01.sevenos.fr
+          env: home
+          category: homeassistant
+          metrics: 
+            enabled: false
+            install: false
+        vm-db-01:
+          ansible_host: vm-db-01.prod.sevenos.fr
+          ansible_user: admin
+          env: prod
+          category: database

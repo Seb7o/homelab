@@ -1,0 +1,10 @@
+all:
+  children:
+    nas:
+      hosts:
+        nas-unraid-01:
+          ansible_host: nas-unraid-01.sevenos.fr
+          env: home
+          metrics:
+            enabled: false
+            install: false

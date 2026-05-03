@@ -1,0 +1,8 @@
+all:
+  children:
+    pdm:
+      hosts:
+        pdm-main-01:
+          ansible_host: pdm-main-01.sevenos.fr
+          env: home
+          platform: vm

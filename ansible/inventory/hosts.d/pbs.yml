@@ -1,0 +1,13 @@
+all:
+  children:
+    pbs:
+      hosts:
+        pbs-local-01:
+          ansible_host: pbs-local-01.sevenos.fr
+          env: home
+          platform: vm
+
+        pbs-remote-01:
+          ansible_host: pbs-remote-01.sevenos.fr
+          env: remote
+          platform: vm

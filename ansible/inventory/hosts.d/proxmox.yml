@@ -1,0 +1,49 @@
+all:
+  children:
+    proxmox:
+      children:
+        proxmox_preprod:
+          vars:
+            env: preprod
+          hosts:
+            pprd-hpv-pmx-01:
+              ansible_host: 192.168.1.101
+              hostname: pprd-hpv-pmx-01
+
+            pprd-hpv-pmx-02:
+              ansible_host: 192.168.1.102
+              hostname: pprd-hpv-pmx-02
+
+            pprd-hpv-pmx-03:
+              ansible_host: 192.168.1.103
+              hostname: pprd-hpv-pmx-03
+
+        proxmox_prod:
+          vars:
+            env: prod
+          hosts:
+            prod-hpv-pmx-01:
+              ansible_host: 10.70.12.71
+              hostname: prod-hpv-pmx-01
+
+            prod-hpv-pmx-02:
+              ansible_host: 10.70.12.72
+              hostname: prod-hpv-pmx-02
+
+            prod-hpv-pmx-03:
+              ansible_host: 10.70.12.73
+              hostname: prod-hpv-pmx-03
+
+        proxmox_home:
+          hosts:
+            hpv-proxmox-01:
+              ansible_host: 192.168.1.27
+              hostname: hpv-proxmox-01
+              env: home
+
+        proxmox_remote:
+          hosts:
+            pve-remote-01:
+              ansible_host: 10.13.0.6
+              hostname: pve-remote-01
+              env: remote

@@ -1,0 +1,10 @@
+all:
+  children:
+    vps:
+      hosts:
+        vps-edge-01:
+          ansible_host: 82.165.108.85
+          ansible_user: root
+          env: remote
+          platform: vm
+          category: network

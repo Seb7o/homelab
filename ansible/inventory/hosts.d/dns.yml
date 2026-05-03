@@ -1,0 +1,25 @@
+all:
+  children:
+    dns:
+      vars:
+        platform: baremetal
+        metrics: 
+          enabled: true
+          install: true
+      hosts:
+        pihole-deb-01:
+          ansible_host: pihole-deb-01.sevenos.fr
+          env: home
+          category: dns
+        vm-dns-01:
+          ansible_host: vm-dns-01.sevenos.fr
+          ansible_user: admin
+          platform: vm
+          env: home
+          category: dns
+        vm-dns-02:
+          ansible_host: vm-dns-02.sevenos.fr
+          ansible_user: admin
+          platform: vm
+          env: home
+          category: dns
