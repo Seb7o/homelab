@@ -1,0 +1,38 @@
+homelab_domains:
+  root: sevenos.fr
+
+  zones:
+    mgm:
+      suffix: mgm.sevenos.fr
+      default_visibility: internal
+      default_auth: true
+
+    demo:
+      suffix: demo.sevenos.fr
+      default_visibility: external
+      default_auth: false
+
+    public:
+      suffix: sevenos.fr
+      default_visibility: external
+      default_auth: false
+
+    internal:
+      suffix: int.sevenos.fr
+      default_visibility: internal
+      default_auth: true
+    
+    prod:
+      suffix: prod.sevenos.fr
+      default_visibility: internal
+      default_auth: true
+    
+    preprod:
+      suffix: preprod.sevenos.fr
+      default_visibility: internal
+      default_auth: true
+    
+    staging:
+      suffix: staging.sevenos.fr
+      default_visibility: internal
+      default_auth: true

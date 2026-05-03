@@ -1,0 +1,23 @@
+proxy_defaults:
+  visibility: internal
+  auth: false
+  tls: internal
+  encode: true
+  headers: true
+  access_log: true
+
+  caddy:
+    config_dir: /etc/caddy
+    sites_dir: /etc/caddy/sites-enabled
+    snippets_dir: /etc/caddy/snippets
+    log_dir: /var/log/caddy
+
+webui_defaults:
+  enabled: false
+  zone: mgm
+  scheme: http
+  path: /
+  visibility: internal
+  auth: false
+  tls_verify: false
+  port: 80

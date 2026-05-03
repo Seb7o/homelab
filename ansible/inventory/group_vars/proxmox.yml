@@ -3,5 +3,7 @@ platform: hypervisor
 metrics:
   enabled: true
   install: true
-
+webui:
+  enabled: true
+  port: 8006
 ssh_keys_path: /etc/pve/priv/authorized_keys
